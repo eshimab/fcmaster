@@ -1,8 +1,3 @@
-%
-%
-%
-%
-%
 function s = myXml2Struct(node)
     % Initialize an empty struct
     s = struct();

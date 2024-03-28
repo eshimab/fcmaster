@@ -2,12 +2,11 @@
 %
 %
 %
-% Version 2.2
+% Version 2.2.1
 
 function compareXmlNodes(node1, node2, nodeName1, nodeName2, varargin)
     % Initialize input parser
     p = inputParser();
-    % p = inputParser;
     addParameter(p, 'Path', '', @ischar);
     addParameter(p, 'SilenceFields', {}, @iscell);
     addParameter(p, 'FileId', -1, @(x) isnumeric(x) && (x >= -1)); % Correctly handling FileId
@@ -47,24 +46,20 @@ function compareXmlNodes(node1, node2, nodeName1, nodeName2, varargin)
             fieldVal2 = node2.(field);
             
             if isstruct(fieldVal1) && isstruct(fieldVal2)
-              compareXmlNodes(fieldVal1, fieldVal2, nodeName1, nodeName2, 'Path', newPath, 'SilenceFields', silenceFields, 'FileId', fileId);
+                compareXmlNodes(fieldVal1, fieldVal2, nodeName1, nodeName2, 'Path', newPath, 'SilenceFields', silenceFields, 'FileId', fileId);
             else
-              messageString = ['Difference found at ' newPath ': ' convertToString(fieldVal1) ' (' nodeName1 ') vs ' convertToString(fieldVal2) ' (' nodeName2 ')'];
-              message = sprintf('%s\n', messageString);
-              % Construct and print message
-              fprintf('%s', message);
-              fprintf(fileId, '%s', message);
+                messageString = ['Difference found at ' newPath ': ' convertToString(fieldVal1) ' (' nodeName1 ') vs ' convertToString(fieldVal2) ' (' nodeName2 ')'];
+                fprintf('%s\n', messageString);
+                fprintf(fileId, '%s\n', messageString);
             end
         else
             if isfield(node1, field)
-                % Construct and print message for missing in node2
-                message = sprintf('Missing in %s: %s\n', nodeName2, newPath);
+                messageString = ['Missing in ' nodeName2 ': ' newPath];
             else
-                % Construct and print message for missing in node1
-                message = sprintf('Missing in %s: %s\n', nodeName1, newPath);
+                messageString = ['Missing in ' nodeName1 ': ' newPath];
             end
-            fprintf('%s', message);
-            fprintf(fileId, '%s', message);
+            fprintf('%s\n', messageString);
+            fprintf(fileId, '%s\n', messageString);
         end
     end
     
