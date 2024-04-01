@@ -14,7 +14,9 @@ xmldata = xmlread(loadstring);
 rootElement = xmldata.getDocumentElement;
 xmlstc339 = myXml2Struct(rootElement)
 
-myCompareStruct(xmlstc325, xmlstc339)
+% myCompareStruct(xmlstc325, xmlstc339)
+
+compareXmlNodes(xmlstc325,xmlstc339)
 
 % Now xmlStruct mirrors the structure of your XML in MATLAB struct form
 
@@ -31,9 +33,6 @@ if creationDateElements.getLength > 0
     creationDateElement = creationDateElements.item(0);
     
     % Get the text content of the CreationDate element
-    creationDateText = char(creationDateElement.getTextContent);
-    
-    % Display the creation date
     disp(['Creation Date: ', creationDateText]);
 else
     disp('CreationDate element not found.');
@@ -65,8 +64,8 @@ loadCells = {
 
 
 
-for idxload = 1:length(loadCells)
-  idxload = 1;
+% for idxload = 1:length(loadCells)
+for idxload = 1
   loadstring = loadCells{idxload}
   fid = fopen(loadstring);
   % ----------------- Loop Init -------------------
